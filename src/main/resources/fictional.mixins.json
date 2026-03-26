@@ -2,9 +2,14 @@
 	"required": true,
 	"minVersion": "0.8",
 	"package": "io.zershyan.fictional.mixin",
-	"compatibilityLevel": "JAVA_8",
+	"compatibilityLevel": "JAVA_17",
 	"refmap": "fictional.refmap.json",
+	"plugin": "io.zershyan.fictional.mixin.FictionalMixinPlugin",
 	"mixins": [
+		"ba_bt.MixinLandTower",
+		"cataclysm.MixinLaserBeamEntity",
+		"mutantmonsters.MixinMutantZombie",
+		"mutantmore.MixinIcicleSpike"
 	],
 	"client": [
 	],

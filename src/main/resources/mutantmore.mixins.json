@@ -1,0 +1,25 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "com.alexander.mutantmore.mixin",
+	"compatibilityLevel": "JAVA_16",
+	"refmap": "mutantmore.mixins.refmap.json",
+	"mixins": [
+		"DefaultAttributesMixin",
+		"EndCityPieceMixin",
+		"EntityMixin",
+		"LivingEntityMixin"
+	],
+	"client": [
+		"HumanoidModelMixin",
+		"LivingEntityRendererMixin",
+		"MapDecorationMixin",
+		"MapDecorationTypeMixin",
+		"MapInstanceMixin",
+		"MusicManagerMixin",
+		"SplashManagerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
