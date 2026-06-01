@@ -9,7 +9,8 @@
 		"ba_bt.MixinLandTower",
 		"cataclysm.MixinLaserBeamEntity",
 		"mutantmonsters.MixinMutantZombie",
-		"mutantmore.MixinIcicleSpike"
+		"mutantmore.MixinIcicleSpike",
+		"mutantmore.MixinWanderingTrader"
 	],
 	"client": [
 	],

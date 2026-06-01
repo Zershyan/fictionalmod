@@ -127,11 +127,13 @@ dependencies {
     //锦致装饰
 //    compileOnly fg.deobf("curse.maven:selene-499980:5938277")
 //    compileOnly fg.deobf("curse.maven:supplementaries-412082:5458843")
+    //lootr
+    implementation fg.deobf("curse.maven:lootr-361276:7263076")
     //突变生物
     compileOnly fg.deobf("curse.maven:mutant-monsters-852665:5107399")
     compileOnly fg.deobf("curse.maven:puzzles-lib-495476:6918565")
     //更多突变生物
-    implementation fg.deobf("blank:mutantmore-1.20.1:1.0.0")
+    compileOnly fg.deobf("blank:mutantmore-1.20.1:1.0.0")
 
     runtimeOnly fg.deobf("curse.maven:jade-324717:6855440")
     implementation fg.deobf("curse.maven:jei-238222:6600311")
@@ -180,4 +182,19 @@ tasks.named('jar', Jar).configure {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+}
+
+afterEvaluate {
+    tasks.named('build') {
+        doLast {
+            def newFileName = "${mod_id}-${mod_version}.jar"
+            def newJarPath = layout.buildDirectory.file("libs/$newFileName").get().asFile
+            newJarPath.parentFile.mkdirs()
+            ant.delete(file: file("build/libs/${mod_id}-${mod_version}-origin.jar"))
+            ant.move(
+                    file: file("build/libs/${mod_id}-${mod_version}-all.jar"),
+                    tofile: file("build/libs/${mod_id}-${mod_version}.jar")
+            )
+        }
+    }
 }

@@ -45,10 +45,9 @@ public class FictionalMixinPlugin implements IMixinConfigPlugin {
             ).toList();
             if (list.isEmpty()) return false;
             ArtifactVersion version = list.get(0).getVersion();
-            if(version.getMajorVersion() == 8
+            return version.getMajorVersion() == 8
                     && version.getMinorVersion() == 0
-                    && version.getIncrementalVersion() == 7
-            ) return true;
+                    && version.getIncrementalVersion() == 7;
         }
         return true;
     }

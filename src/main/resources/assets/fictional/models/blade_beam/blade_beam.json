@@ -1,0 +1,9 @@
+{
+	"loader": "forge:obj",
+	"model": "fictional:models/blade_beam/blade_beam.obj",
+	"flip_v": true,
+	"automatic_culling": false,
+	"textures": {
+		"texture0" : "fictional:models/props/blade_beam"
+	}
+}
