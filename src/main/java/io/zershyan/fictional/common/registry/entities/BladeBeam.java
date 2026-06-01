@@ -141,8 +141,8 @@ public class BladeBeam extends Projectile {
         super.onHitEntity(pResult);
         if (!this.level().isClientSide) {
             Entity entity = pResult.getEntity();
-            if (entity instanceof LivingEntity living) {
-                entity.hurt(damageSources().mobAttack(living), this.getDamage());
+            if (entity instanceof LivingEntity && getOwner() instanceof LivingEntity owner) {
+                entity.hurt(damageSources().mobAttack(owner), this.getDamage());
             } else fadeDiscard();
         }
     }
