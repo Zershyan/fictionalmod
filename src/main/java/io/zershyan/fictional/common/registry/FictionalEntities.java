@@ -18,7 +18,6 @@ public class FictionalEntities {
                     .<BladeBeam>of(BladeBeam::new, MobCategory.MISC)
                     .sized(3.0f, 0.5f)
                     .fireImmune()
-                    .updateInterval(3)
                     .setShouldReceiveVelocityUpdates(true)
     );
 
