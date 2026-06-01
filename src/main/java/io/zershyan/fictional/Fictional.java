@@ -4,6 +4,7 @@ import io.zershyan.fictional.client.registry.FictionalModels;
 import io.zershyan.fictional.client.registry.FictionalRenderers;
 import io.zershyan.fictional.common.registry.FictionalEntities;
 import io.zershyan.fictional.example.FictionalExample;
+import io.zershyan.fictional.network.Channel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,6 +24,7 @@ public class Fictional {
         IEventBus modBus = context.getModEventBus();
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
+        Channel.register();
         FictionalEntities.register(modBus);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {

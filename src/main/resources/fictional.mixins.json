@@ -13,6 +13,7 @@
 		"mutantmore.MixinWanderingTrader"
 	],
 	"client": [
+		"fictional.client.MixinMinecraft"
 	],
 	"injectors": {
 		"defaultRequire": 1
