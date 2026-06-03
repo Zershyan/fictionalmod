@@ -23,8 +23,10 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.util.function.Consumer;
 
 public class BladeBeam extends Projectile {
     private static final EntityDataAccessor<Float> ALPHA;
@@ -141,8 +143,10 @@ public class BladeBeam extends Projectile {
         super.onHitEntity(pResult);
         if (!this.level().isClientSide) {
             Entity entity = pResult.getEntity();
-            if (entity instanceof LivingEntity && getOwner() instanceof LivingEntity owner) {
-                entity.hurt(damageSources().mobAttack(owner), this.getDamage());
+            if(getOwner() instanceof LivingEntity owner) {
+                if (entity instanceof LivingEntity && owner != entity) {
+                    entity.hurt(damageSources().mobAttack(owner), this.getDamage());
+                }
             } else fadeDiscard();
         }
     }
@@ -200,11 +204,6 @@ public class BladeBeam extends Projectile {
         this.entityData.set(COLOR, Mth.clamp(color, 0x000000, 0xFFFFFF));
     }
 
-    public void color(int r, int g, int b, int a) {
-        setColor(new Color(r, g, b).getRGB());
-        setAlpha((float) a / 255);
-    }
-
     public float getDistance() {
         return this.entityData.get(DISTANCE);
     }
@@ -231,24 +230,19 @@ public class BladeBeam extends Projectile {
         return pDimensions.height * 0.5f;
     }
 
-    public static BladeBeam spawn(Player owner, float damage) {
+    public static BladeBeamBuilder spawn(Player owner, float damage) {
         return spawn(owner, damage, (float) owner.getEntityReach());
     }
 
-    public static BladeBeam spawn(LivingEntity owner, float damage, float distance) {
+    public static BladeBeamBuilder spawn(LivingEntity owner, float damage, float distance) {
+        return spawn(owner).damage(damage).distance(distance);
+    }
+
+    private static BladeBeamBuilder spawn(LivingEntity owner) {
         Level level = owner.level();
         BladeBeam bladeBeam = new BladeBeam(level);
-        if(level.isClientSide) return bladeBeam;
-        bladeBeam.setOwner(owner);
-        bladeBeam.setDistance(distance);
-        bladeBeam.setDamage(damage);
-        Vec3 viewVector = owner.getViewVector(0.0f);
-        bladeBeam.setDeltaMovement(viewVector);
-        bladeBeam.setPos(owner.getEyePosition().add(viewVector));
-        bladeBeam.setXRot(owner.getXRot());
-        bladeBeam.setYRot(owner.getYRot());
-        level.addFreshEntity(bladeBeam);
-        return bladeBeam;
+        if(level.isClientSide) return new BladeBeamBuilder(bladeBeam);
+        return new BladeBeamBuilder(bladeBeam).owner(owner);
     }
 
     static {
@@ -259,5 +253,66 @@ public class BladeBeam extends Projectile {
         COLOR = SynchedEntityData.defineId(BladeBeam.class, EntityDataSerializers.INT);
         FADE_TICK = SynchedEntityData.defineId(BladeBeam.class, EntityDataSerializers.INT);
         IN_FADE_TICK = SynchedEntityData.defineId(BladeBeam.class, EntityDataSerializers.INT);
+    }
+
+    public static class BladeBeamBuilder {
+        private final BladeBeam bladeBeam;
+        @Nullable
+        private Consumer<BladeBeam> beamConsumer;
+        public BladeBeamBuilder(BladeBeam bladeBeam) {
+            this.bladeBeam = bladeBeam;
+        }
+
+        public BladeBeamBuilder custom(Consumer<BladeBeam> beamConsumer) {
+            this.beamConsumer = beamConsumer;
+            return this;
+        }
+
+        public BladeBeamBuilder color(int rgb) {
+            bladeBeam.setColor(rgb);
+            return this;
+        }
+
+        public BladeBeamBuilder alpha(float alpha) {
+            bladeBeam.setAlpha(alpha);
+            return this;
+        }
+
+        public BladeBeamBuilder distance(float distance) {
+            bladeBeam.setDistance(distance);
+            return this;
+        }
+
+        public BladeBeamBuilder damage(float damage) {
+            bladeBeam.setDamage(damage);
+            return this;
+        }
+
+        public BladeBeamBuilder zpRotation(float rotation) {
+            bladeBeam.setZpRotation(rotation);
+            return this;
+        }
+
+        public BladeBeamBuilder owner(Entity owner) {
+            bladeBeam.setOwner(owner);
+            return this;
+        }
+
+        public BladeBeam build(float speed) {
+            Entity owner = bladeBeam.getOwner();
+            if(owner == null) throw new RuntimeException("Owner of blade beam doesn't exist.");
+            Vec3 viewVector = owner.getViewVector(0.0f);
+            bladeBeam.setDeltaMovement(viewVector.scale(speed));
+            bladeBeam.setPos(owner.getEyePosition().add(viewVector));
+            bladeBeam.setXRot(owner.getXRot());
+            bladeBeam.setYRot(owner.getYRot());
+            if(beamConsumer != null) beamConsumer.accept(bladeBeam);
+            owner.level().addFreshEntity(bladeBeam);
+            return bladeBeam;
+        }
+
+        public BladeBeam build() {
+            return build(1.0f);
+        }
     }
 }

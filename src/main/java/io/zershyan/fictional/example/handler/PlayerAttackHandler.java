@@ -9,7 +9,11 @@ public class PlayerAttackHandler {
     public static void attack(AttackEntityEvent event) {
         Player entity = event.getEntity();
         if(entity instanceof ServerPlayer player) {
-            BladeBeam.spawn(player, 10.0f);
+            BladeBeam.spawn(player, 10.0f)
+                    .color(0xFFFFFF)
+                    .custom(bladeBeam -> bladeBeam.setDeltaMovement(
+                            bladeBeam.getDeltaMovement().scale(1.5))
+                    ).build();
         }
     }
 }
