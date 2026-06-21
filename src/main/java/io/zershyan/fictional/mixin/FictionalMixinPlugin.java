@@ -24,30 +24,26 @@ public class FictionalMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        List<ModInfo> modInfos = LoadingModList.get().getMods();
+        List<String> modList = modInfos.stream().map(ModInfo::getModId).toList();
+
         if (mixinClassName.startsWith("io.zershyan." + Fictional.MODID + ".mixin.ba_bt.")) {
-            return LoadingModList.get().getMods().stream().map(ModInfo::getModId).anyMatch(
-                    s -> s.equals("ba_bt")
-            );
+            return modList.contains("ba_bt");
         }
         if (mixinClassName.startsWith("io.zershyan." + Fictional.MODID + ".mixin.cataclysm.")) {
-            return LoadingModList.get().getMods().stream().map(ModInfo::getModId).anyMatch(
-                    s -> s.equals("cataclysm")
-            );
+            return modList.contains("cataclysm");
         }
         if (mixinClassName.startsWith("io.zershyan." + Fictional.MODID + ".mixin.mutantmore.")) {
-            return LoadingModList.get().getMods().stream().map(ModInfo::getModId).anyMatch(
-                    s -> s.equals("mutantmore")
-            );
+            return modList.contains("mutantmore");
+        }
+        if (mixinClassName.startsWith("io.zershyan." + Fictional.MODID + ".mixin.legendary_monsters.")) {
+            return modList.contains("legendary_monsters");
         }
         if (mixinClassName.startsWith("io.zershyan." + Fictional.MODID + ".mixin.mutantmonsters.")) {
-            List<ModInfo> list = LoadingModList.get().getMods().stream().filter(
-                    modInfo -> modInfo.getModId().equals("mutantmonsters")
-            ).toList();
-            if (list.isEmpty()) return false;
-            ArtifactVersion version = list.get(0).getVersion();
-            return version.getMajorVersion() == 8
-                    && version.getMinorVersion() == 0
-                    && version.getIncrementalVersion() == 7;
+            ModInfo info = modInfos.stream().filter(modInfo -> modInfo.getModId().equals("mutantmonsters")).findAny().orElse(null);
+            if(info == null) return false;
+            ArtifactVersion version = info.getVersion();
+            return version.getMajorVersion() == 8 && version.getMinorVersion() == 0 && version.getIncrementalVersion() == 7;
         }
         return true;
     }

@@ -8,6 +8,10 @@
 	"mixins": [
 		"ba_bt.MixinLandTower",
 		"cataclysm.MixinLaserBeamEntity",
+		"fictional.common.MixinItem",
+		"legendary_monsters.MixinCloud_GolemEntity",
+		"legendary_monsters.MixinIAnimatedBoss",
+		"legendary_monsters.MixinTheWarpedOneOld",
 		"mutantmonsters.MixinMutantZombie",
 		"mutantmore.MixinIcicleSpike",
 		"mutantmore.MixinWanderingTrader"

@@ -135,6 +135,8 @@ dependencies {
     compileOnly fg.deobf("curse.maven:puzzles-lib-495476:6918565")
     //更多突变生物
     compileOnly fg.deobf("blank:mutantmore-1.20.1:1.0.0")
+    //传奇怪物
+    implementation fg.deobf("curse.maven:legendary-monsters-944035:8170235")
 
     runtimeOnly fg.deobf("curse.maven:jade-324717:6855440")
     implementation fg.deobf("curse.maven:jei-238222:6600311")
