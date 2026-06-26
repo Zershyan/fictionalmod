@@ -22,6 +22,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,6 +40,7 @@ public class BladeBeam extends Projectile {
 
     public BladeBeam(EntityType<? extends Projectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.noPhysics = true;
     }
 
     public BladeBeam(Level pLevel) {
@@ -117,6 +119,17 @@ public class BladeBeam extends Projectile {
     }
 
     @Override
+    public void push(@NotNull Entity pEntity) { }
+
+    @Override
+    public boolean isPushedByFluid(FluidType type) {
+        return false;
+    }
+
+    @Override
+    public void push(double pX, double pY, double pZ) { }
+
+    @Override
     public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
         return false;
     }
@@ -144,7 +157,7 @@ public class BladeBeam extends Projectile {
         if (!this.level().isClientSide) {
             Entity entity = pResult.getEntity();
             if(getOwner() instanceof LivingEntity owner) {
-                if (entity instanceof LivingEntity && owner != entity) {
+                if (owner != entity && entity.canBeHitByProjectile()) {
                     entity.hurt(damageSources().mobAttack(owner), this.getDamage());
                 }
             } else fadeDiscard();

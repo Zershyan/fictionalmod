@@ -11,6 +11,7 @@ public class PlayerAttackHandler {
         if(entity instanceof ServerPlayer player) {
             BladeBeam.spawn(player, 10.0f)
                     .color(0xFFFFFF)
+                    .damage(100)
                     .custom(bladeBeam -> bladeBeam.setDeltaMovement(
                             bladeBeam.getDeltaMovement().scale(1.5))
                     ).build();
