@@ -8,10 +8,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Pseudo
 @Mixin(MutantZombie.class)
 public abstract class MixinMutantZombie extends AbstractMutantMonster {
     protected MixinMutantZombie(EntityType<? extends Monster> entityType, Level level) {

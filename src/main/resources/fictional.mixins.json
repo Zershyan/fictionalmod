@@ -6,17 +6,26 @@
 	"refmap": "fictional.refmap.json",
 	"plugin": "io.zershyan.fictional.mixin.FictionalMixinPlugin",
 	"mixins": [
+		"aether_redux.MixinWeaponHooks",
 		"ba_bt.MixinLandTower",
+		"beyondstorage.MixinStoreLogic",
 		"cataclysm.MixinLaserBeamEntity",
+		"champions.MixinReflectiveAffix",
 		"fictional.common.MixinItem",
+		"goety.MixinApostle",
+		"goetyawaken.MixinTrackingFireball",
+		"legendary_monsters.MixinAnnihilationBombEntity",
 		"legendary_monsters.MixinCloud_GolemEntity",
 		"legendary_monsters.MixinIAnimatedBoss",
+		"legendary_monsters.MixinSoulJavelinEntity",
+		"legendary_monsters.MixinSoulStrike",
 		"legendary_monsters.MixinTheWarpedOneOld",
 		"mutantmonsters.MixinMutantZombie",
 		"mutantmore.MixinIcicleSpike",
 		"mutantmore.MixinWanderingTrader"
 	],
 	"client": [
+		"fictional.client.MixinLocalPlayer",
 		"fictional.client.MixinMinecraft"
 	],
 	"injectors": {

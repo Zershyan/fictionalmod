@@ -22,22 +22,20 @@ public class FictionalMixinPlugin implements IMixinConfigPlugin {
         return null;
     }
 
+    private static final String[] MixinMods = {
+            "ba_bt", "cataclysm", "mutantmore", "legendary_monsters", "champions",
+            "beyondstorage"
+    };
+
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         List<ModInfo> modInfos = LoadingModList.get().getMods();
         List<String> modList = modInfos.stream().map(ModInfo::getModId).toList();
 
-        if (mixinClassName.startsWith("io.zershyan." + Fictional.MODID + ".mixin.ba_bt.")) {
-            return modList.contains("ba_bt");
-        }
-        if (mixinClassName.startsWith("io.zershyan." + Fictional.MODID + ".mixin.cataclysm.")) {
-            return modList.contains("cataclysm");
-        }
-        if (mixinClassName.startsWith("io.zershyan." + Fictional.MODID + ".mixin.mutantmore.")) {
-            return modList.contains("mutantmore");
-        }
-        if (mixinClassName.startsWith("io.zershyan." + Fictional.MODID + ".mixin.legendary_monsters.")) {
-            return modList.contains("legendary_monsters");
+        for (String modid : MixinMods) {
+            if (mixinClassName.startsWith(this.getClass().getPackageName() + "." + modid + ".")) {
+                return modList.contains(modid);
+            }
         }
         if (mixinClassName.startsWith("io.zershyan." + Fictional.MODID + ".mixin.mutantmonsters.")) {
             ModInfo info = modInfos.stream().filter(modInfo -> modInfo.getModId().equals("mutantmonsters")).findAny().orElse(null);

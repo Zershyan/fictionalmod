@@ -10,6 +10,8 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(IAnimatedBoss.class)
 public abstract class MixinIAnimatedBoss extends LivingEntity {
@@ -23,5 +25,14 @@ public abstract class MixinIAnimatedBoss extends LivingEntity {
     )
     public boolean addEffect(boolean original, MobEffectInstance pEffectInstance, @Nullable Entity pEntity) {
         return super.addEffect(pEffectInstance, pEntity);
+    }
+
+    @Inject(
+            method = "heal",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void heal(float amount, CallbackInfo ci) {
+        if(getHealth() <= 0.0f) ci.cancel();
     }
 }
