@@ -6,5 +6,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 public class FictionalExample {
     public static void register(IEventBus forgeBus) {
         forgeBus.addListener(PlayerAttackHandler::attack);
+        forgeBus.addListener(PlayerAttackHandler::shootBeam);
     }
 }

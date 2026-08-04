@@ -110,7 +110,7 @@ public class BladeBeam extends Projectile {
 
     @Override
     protected boolean canHitEntity(@NotNull Entity pTarget) {
-        return super.canHitEntity(pTarget) && !pTarget.noPhysics;
+        return super.canHitEntity(pTarget);
     }
 
     @Override
