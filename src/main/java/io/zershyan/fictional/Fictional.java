@@ -3,6 +3,7 @@ package io.zershyan.fictional;
 import io.zershyan.fictional.client.registry.FictionalModels;
 import io.zershyan.fictional.client.registry.FictionalRenderers;
 import io.zershyan.fictional.common.registry.FictionalEntities;
+import io.zershyan.fictional.compat.CompatFactory;
 import io.zershyan.fictional.example.FictionalExample;
 import io.zershyan.fictional.network.Channel;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,6 +27,7 @@ public class Fictional {
 
         Channel.register();
         FictionalEntities.register(modBus);
+        CompatFactory.register(forgeBus, modBus);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             FictionalRenderers.register(modBus);
